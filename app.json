@@ -1,7 +1,7 @@
 {
-  "name": "ＤａＲｋ　ｐＲｉＮｃＥ",
-  "description": "@use_dark_prince Userbot Kanged From Everywhere",
-  "logo": "https://telegra.ph/file/3952f58c07382778cab87.jpg",
+  "name": "Hellbois bot",
+  "description": "use this Userbot Kanged From Everywhere",
+  "logo": "https://telegra.ph/file/ef467ce9110f4dbcb7619.jpg",
     "keywords": [
     "telegram",
     "userbot",
@@ -11,7 +11,7 @@
   ],
   "repository": "https://github.com/No-OnE-Kn0wS-Me/dArK_pRiNcE/",
   "website": "https://github.com/No-OnE-Kn0wS-Me",
-  "success_url": "https://t.me/No_OnE_Kn0wS_Me",
+  "success_url": "https://t.me/Atul_xD",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable heroku.",
