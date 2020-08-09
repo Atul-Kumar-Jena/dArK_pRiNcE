@@ -174,7 +174,7 @@ async def startgmute(event):
     try:
         mute(userid, "gmute")
     except Exception as e:
-        await event.edit("Error occured!\nError is " + str(e))
+        await event.edit("Error occurred!\nError is " + str(e))
     else:
         await event.edit("Successfully gmuted that person")
     if BOTLOG:
@@ -209,7 +209,7 @@ async def endgmute(event):
     try:
         unmute(userid, "gmute")
     except Exception as e:
-        await event.edit("Error occured!\nError is " + str(e))
+        await event.edit("Error occurred!\nError is " + str(e))
     else:
         await event.edit("Successfully ungmuted that person")
     if BOTLOG:

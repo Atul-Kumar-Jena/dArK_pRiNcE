@@ -24,7 +24,7 @@ from userbot import bot, CMD_HELP
 INVALID_MEDIA = "```The extension of the media entity is invalid.```"
 PP_CHANGED = "```Profile picture changed successfully.```"
 PP_TOO_SMOL = "```This image is too small, use a bigger image.```"
-PP_ERROR = "```Failure occured while processing image.```"
+PP_ERROR = "```Failure occurred while processing image.```"
 BIO_SUCCESS = "```Successfully edited Bio.```"
 NAME_OK = "```Your name was succesfully changed.```"
 USERNAME_SUCCESS = "```Your username was succesfully changed.```"
