@@ -44,7 +44,7 @@ async def startmute(event):
         try:
             mute(userid, chat_id)
         except Exception as e:
-            await event.edit("Error occured!\nError is " + str(e))
+            await event.edit("Error occurred!\nError is " + str(e))
         else:
             await event.edit("Successfully muted that person.\n**｀-´)⊃━☆ﾟ.*･｡ﾟ **")
 
@@ -76,7 +76,7 @@ async def endmute(event):
         try:
             unmute(userid, chat_id)
         except Exception as e:
-            await event.edit("Error occured!\nError is " + str(e))
+            await event.edit("Error occurred!\nError is " + str(e))
         else:
             await event.edit("Successfully unmuted that person\n乁( ◔ ౪◔)「    ┑(￣Д ￣)┍")
             

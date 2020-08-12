@@ -42,7 +42,7 @@ async def startgmute(event):
     try:
         mute(userid, "gmute")
     except Exception as e:
-        await event.edit("Error occured!\nError is " + str(e))
+        await event.edit("Error occurred!\nError is " + str(e))
     else:
         await event.edit("Successfully putted Duct Tape on that person's mouth")
 
@@ -71,7 +71,7 @@ async def endgmute(event):
     try:
         unmute(userid, "gmute")
     except Exception as e:
-        await event.edit("Error occured!\nError is " + str(e))
+        await event.edit("Error occurred!\nError is " + str(e))
     else:
         await event.edit("Successfully Removed Duct Tape from that person's mouth")
         
