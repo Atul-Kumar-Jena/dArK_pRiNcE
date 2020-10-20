@@ -63,6 +63,6 @@ async def _(event):
 
               return
 
-              await event.edit(f"{response.message.message}")
+              await event.edit(f"{response.media.message}")
 
 
