@@ -61,7 +61,8 @@ async def _(event):
 
               await event.reply("__Please unblock @TelescopyBot and try again__")
 
-           else:
+         return
 
               await event.edit(f"{response.message.message}")
+
 
