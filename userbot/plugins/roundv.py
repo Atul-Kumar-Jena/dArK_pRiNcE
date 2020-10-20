@@ -63,6 +63,8 @@ async def _(event):
 
               return
 
-              await event.edit(f"{response.media.media}")
+              await event.delete()
+              await event.client.send_message(event.chat_id, response.message)
+
 
 
