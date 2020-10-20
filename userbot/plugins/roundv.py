@@ -9,7 +9,7 @@ from telethon.tl.functions.account import UpdateNotifySettingsRequest
 from userbot.utils import admin_cmd
 
 
-===================================================================================
+#===================================================================================
 
 
 
