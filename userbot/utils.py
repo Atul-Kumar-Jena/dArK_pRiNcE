@@ -98,6 +98,15 @@ def command(**args):
             return func
 
         return decorator
+
+async def _humanfriendly_seconds(seconds: int or float) -> str:
+    elapsed = datetime.timedelta(seconds=round(seconds)).__str__()
+    splat = elapsed.split(', ')
+    if len(splat) == 1:
+        return await _human_friendly_timedelta(splat[0])
+    friendly_units = await _human_friendly_timedelta(splat[1])
+    return ', '.join([splat[0], friendly_units])
+
     
     
 def load_module(shortname):
