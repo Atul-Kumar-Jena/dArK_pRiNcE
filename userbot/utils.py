@@ -380,6 +380,41 @@ def humanbytes(size):
     return str(round(size, 2)) + " " + dict_power_n[raised_to_pow] + "B"
 
 
+async def get_chat_link(
+    arg: Union[types.User, types.Chat, types.Channel, NewMessage.Event],
+    reply=None
+) -> str:
+    if isinstance(arg, (types.User, types.Chat, types.Channel)):
+        entity = arg
+    else:
+        entity = await arg.get_chat()
+
+    if isinstance(entity, types.User):
+        if entity.is_self:
+            name = "yourself"
+        else:
+            name = get_display_name(entity) or "Deleted Account?"
+        extra = f"[{name}](tg://user?id={entity.id})"
+    else:
+        if hasattr(entity, 'username') and entity.username is not None:
+            username = '@' + entity.username
+        else:
+            username = entity.id
+        if reply is not None:
+            if isinstance(username, str) and username.startswith('@'):
+                username = username[1:]
+            else:
+                username = f"c/{username}"
+            extra = f"[{entity.title}](https://t.me/{username}/{reply})"
+        else:
+            if isinstance(username, int):
+                username = f"`{username}`"
+                extra = f"{entity.title} ( {username} )"
+            else:
+                extra = f"[{entity.title}](tg://resolve?domain={username})"
+    return extra
+
+
 def time_formatter(milliseconds: int) -> str:
     """Inputs time in milliseconds, to get beautified time,
     as string"""
