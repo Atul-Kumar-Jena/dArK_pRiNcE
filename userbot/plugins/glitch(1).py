@@ -8,8 +8,9 @@ from PIL import Image
 from userbot import LOGS , CMD_HELP
 from glitch_this import ImageGlitcher
 from userbot.functions import take_screen_shot ,runcmd
+from userbot.utils import admin_cmd
 
-@plus_ub(pattern="(glitch|glitchs)(?: |$)(.*)", from_users=sudo)
+@borg.on(admin_cmd(pattern=r"glitch"))
 async def glitch(cat):
     a = await cat.reply("`Glitching... 😁`")
     cmd = cat.pattern_match.group(1)
