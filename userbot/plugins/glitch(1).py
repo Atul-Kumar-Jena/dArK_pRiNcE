@@ -4,60 +4,66 @@ ported to telethon by @mrconfused and @sandy1709
 """
 
 import os
-from PIL import Image
-from userbot import LOGS , CMD_HELP
-from glitch_this import ImageGlitcher
-from userbot.functions import take_screen_shot ,runcmd
-from userbot.utils import admin_cmd
 
-@borg.on(admin_cmd(pattern=r"glitch?(.*)"))
+from glitch_this import ImageGlitcher
+from PIL import Image
+from telethon import functions, types
+
+from .. import CMD_HELP, LOGS
+from ..utils import admin_cmd, edit_or_reply
+from . import runcmd, take_screen_shot
+
+
+@borg.on(admin_cmd(outgoing=True, pattern="(glitch|glitchs)(?: |$)(.*)"))
 async def glitch(cat):
-    a = await cat.reply("`Glitching... 😁`")
     cmd = cat.pattern_match.group(1)
     catinput = cat.pattern_match.group(2)
     reply = await cat.get_reply_message()
+    catid = cat.reply_to_msg_id
+    cat = await edit_or_reply(cat, "```Glitching... 😁```")
     if not (reply and (reply.media)):
-        await a.edit("`Media not found...`")
+        await cat.edit("`Media not found...`")
         return
     if not os.path.isdir("./temp/"):
         os.mkdir("./temp/")
-    catid = cat.reply_to_msg_id
-    catsticker = await reply.download_media(file = "./temp/")
-    if not catsticker.endswith(('.mp4','.webp','.tgs','.png','.jpg')):
+    catsticker = await reply.download_media(file="./temp/")
+    if not catsticker.endswith((".mp4", ".webp", ".tgs", ".png", ".jpg")):
         os.remove(catsticker)
-        await cat.reply("`Media not found...`")
+        await cat.edit("`Media not found...`")
         return
-    file = os.path.join("./temp/", "glitch.png")
+    os.path.join("./temp/", "glitch.png")
     if catinput:
         if not catinput.isdigit():
-            await a.edit("`You input is invalid, check help`")
+            await cat.edit("`You input is invalid, check help`")
             return
         catinput = int(catinput)
-        if not 0 < catinput< 9:
-            await a.edit("`Invalid Range...`")
+        if not 0 < catinput < 9:
+            await cat.edit("`Invalid Range...`")
             return
     else:
         catinput = 2
     if catsticker.endswith(".tgs"):
         catfile = os.path.join("./temp/", "glitch.png")
-        catcmd = f"lottie_convert.py --frame 0 -if lottie -of png {catsticker} {catfile}"
+        catcmd = (
+            f"lottie_convert.py --frame 0 -if lottie -of png {catsticker} {catfile}"
+        )
         stdout, stderr = (await runcmd(catcmd))[:2]
         if not os.path.lexists(catfile):
-            await a.edit("`catsticker not found...`")
+            await cat.edit("`catsticker not found...`")
             LOGS.info(stdout + stderr)
         glitch_file = catfile
     elif catsticker.endswith(".webp"):
         catfile = os.path.join("./temp/", "glitch.png")
-        os.rename(catsticker , catfile)
+        os.rename(catsticker, catfile)
         if not os.path.lexists(catfile):
-            await a.edit("`catsticker not found... `")
+            await cat.edit("`catsticker not found... `")
             return
         glitch_file = catfile
     elif catsticker.endswith(".mp4"):
         catfile = os.path.join("./temp/", "glitch.png")
-        await take_screen_shot(catsticker , 0, catfile)
+        await take_screen_shot(catsticker, 0, catfile)
         if not os.path.lexists(catfile):
-            await a.edit("```catsticker not found...```")
+            await cat.edit("```catsticker not found...```")
             return
         glitch_file = catfile
     else:
@@ -68,10 +74,7 @@ async def glitch(cat):
         glitched = "./temp/" + "glitched.webp"
         glitch_img = glitcher.glitch_image(img, catinput, color_offset=True)
         glitch_img.save(glitched)
-        await cat.client.send_file(
-            cat.chat_id,
-            glitched,
-            reply_to_message_id= catid)
+        await borg.send_file(cat.chat_id, glitched, reply_to=catid)
         os.remove(glitched)
         await cat.delete()
     elif cmd == "glitch":
@@ -81,28 +84,39 @@ async def glitch(cat):
         LOOP = 0
         glitch_img[0].save(
             Glitched,
-            format='GIF',
+            format="GIF",
             append_images=glitch_img[1:],
             save_all=True,
             duration=DURATION,
-            loop=LOOP)
-        await cat.client.send_file(
-            cat.chat_id,
-            Glitched,
-            reply_to_message_id=catid)
+            loop=LOOP,
+        )
+        sandy = await borg.send_file(cat.chat_id, Glitched, reply_to=catid)
+        await borg(
+            functions.messages.SaveGifRequest(
+                id=types.InputDocument(
+                    id=sandy.media.document.id,
+                    access_hash=sandy.media.document.access_hash,
+                    file_reference=sandy.media.document.file_reference,
+                ),
+                unsave=True,
+            )
+        )
         os.remove(Glitched)
         await cat.delete()
     for files in (catsticker, glitch_file):
         if files and os.path.exists(files):
             os.remove(files)
 
-CMD_HELP.update({
-    "glitch":
-    "**SYNTAX : **`.glitch` reply to media file\
-    \n**USAGE :** glitches the given mediafile(gif , stickers , image, videos) to a gif and glitch range is from 1 to 8.\
+
+CMD_HELP.update(
+    {
+        "glitch": "**Plugin : **`glitch`\
+    \n\n**Syntax : **`.glitch` reply to media file\
+    \n**Usage :** glitches the given mediafile(gif , stickers , image, videos) to a gif and glitch range is from 1 to 8.\
     If nothing is mentioned then by default it is 2\
-    \n\n**SYNTAX : **`.glitchs` reply to media file\
-    \n**USAGE :** glitches the given mediafile(gif , stickers , image, videos) to a sticker and glitch range is from 1 to 8.\
+    \n\n**Syntax : **`.glitchs` reply to media file\
+    \n**Usage :** glitches the given mediafile(gif , stickers , image, videos) to a sticker and glitch range is from 1 to 8.\
     If nothing is mentioned then by default it is 2\
     "
-})
+    }
+)
