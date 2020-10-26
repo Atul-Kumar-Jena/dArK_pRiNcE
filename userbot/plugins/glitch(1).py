@@ -11,7 +11,7 @@ from telethon import functions, types
 
 from .. import CMD_HELP, LOGS
 from ..utils import admin_cmd, edit_or_reply
-from . import runcmd, take_screen_shot
+from userbot.functions import runcmd, take_screen_shot
 
 
 @borg.on(admin_cmd(outgoing=True, pattern="(glitch|glitchs)(?: |$)(.*)"))
